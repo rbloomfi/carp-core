@@ -33,4 +33,4 @@ Though many iterations of the OTTER exist, no accessible version has been develo
 <img src="./images/CARP_DIAGRAM.svg" alt="Project logo" width="2000">
 
 ## Hazard Forwarding Schematic 
-<img src="./images/CARP_DIAGRAM_HAZsvg.svg" alt="Project logo" width="2000">
+<img src="./images/CARP_DIAGRAM_HAZ.svg" alt="Project logo" width="2000">
