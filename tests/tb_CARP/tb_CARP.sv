@@ -1,21 +1,21 @@
 `timescale 1ns/1ps
 
-// module: tb_EEL
+// module: tb_CARP
 // author: Ryan Cramer
 `include "opcodes.svh"
-module tb_EEL();
+module tb_CARP();
     
     logic CLK;
     logic RST;
 
-    EEL UUT(
+    CARP UUT(
         .CLK(CLK),
         .RST(RST)
     );
 
     initial begin
-        $dumpfile("tb_EEL.vcd");
-        $dumpvars(2,tb_EEL);
+        $dumpfile("tb_CARP.vcd");
+        $dumpvars(2,tb_CARP);
     end
 
     initial begin
