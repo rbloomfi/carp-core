@@ -1,7 +1,7 @@
-# EEL
+# CARP-32I
 The CARP-32I is a pipelined 32-bit RV32I processor. The goal of the CARP Core is to be the basis for a later, ASIC hardened drop-in core. 
 ## Background 
-### *EEL: Evolved Execution Logic* 
+### *CARP Core* 
 Based on the CPE 333 OTTER, the CARP Core is a highly parameterized, clean RISC-V integer implementation, with extensions for multiplication/division, as well as compressed instructions. Because the 333 OTTER only had a static branch predictor with no interrupts, we hope to create reduced gate expressions for the Hazard Unit (make it purely combinational), and drop in a CSR-based interrupt system, along with dynamic branch predictor. 
 ## ISA Extensions
 The CARP Core will target being the base for several new extensions:
