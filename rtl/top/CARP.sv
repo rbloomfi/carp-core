@@ -2,7 +2,7 @@
 
 `include "pipeline_reg.svh"
 
-module EEL (
+module CARP (
     input CLK,
     input RST
 );
