@@ -6,7 +6,7 @@ module MUL_MID(
     input SIGN,
     input [10:0] RS1_U_MID,
     input [10:0] RS2_U_MID,
-    output logic [63:0] PROD,
+    output logic [63:0] PROD
 );
 
     logic [10:0] rs1_mid, rs2_mid;

@@ -1,19 +1,19 @@
 `timescale 1ns/1ps
 
-module MUL_MID(
+module MUL_FIN(
     input EN,
     input SIGN,
     input UPPER,
     input [9:0] RS1_U_END,
     input [9:0] RS2_U_END,
-    output logic [31:0] PROD,
+    output logic [31:0] PROD
 );
 
-    logic [10:0] rs1_final, rs2_final;
+    logic [9:0] rs1_final, rs2_final;
 
     always_comb begin
-        rs1_final = 11'b0;
-        rs2_final = 11'b0;
+        rs1_final = 10'b0;
+        rs2_final = 10'b0;
 
         if(EN) begin
             rs1_final = RS1_U_END;
@@ -24,7 +24,7 @@ module MUL_MID(
     logic [63:0] partial_prod [0:9];
 
     for (genvar i = 0; i < 10; i++) begin
-        assign partial_prod[i] = rs2_final[i] ? ({53'b0,rs1_final} << i) : 64'd0;
+        assign partial_prod[i] = rs2_final[i] ? ({54'b0,rs1_final} << i) : 64'd0;
     end
 
     wire [63:0] sum0 = partial_prod[0] + partial_prod[1];
