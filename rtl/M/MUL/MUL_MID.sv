@@ -6,6 +6,7 @@ module MUL_MID(
     input SIGN,
     input [10:0] RS1_U_MID,
     input [10:0] RS2_U_MID,
+    input [63:0] SUM,
     output logic [63:0] PROD
 );
 
@@ -24,7 +25,7 @@ module MUL_MID(
     logic [63:0] partial_prod [0:10];
 
     for (genvar i = 0; i < 11; i++) begin
-        assign partial_prod[i] = rs2_mid[i] ? ({53'b0,rs1_mid} << i) : 64'd0;
+        assign partial_prod[i] = rs2_mid[i] ? ({53'b0,rs1_mid} << (i + 11)) : 64'd0;
     end
 
     wire [63:0] sum0 = partial_prod[0] + partial_prod[1];
@@ -33,7 +34,7 @@ module MUL_MID(
     wire [63:0] sum3 = partial_prod[6] + partial_prod[7];
     wire [63:0] sum4 = partial_prod[8] + partial_prod[9];
     wire [63:0] sum5 = partial_prod[10];
-    wire [63:0] stage_sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5;
+    wire [63:0] stage_sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + SUM;
     
     always_comb begin
         PROD = 64'b0;

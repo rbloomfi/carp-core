@@ -6,6 +6,7 @@ module MUL_FIN(
     input UPPER,
     input [9:0] RS1_U_END,
     input [9:0] RS2_U_END,
+    input [63:0] SUM,
     output logic [31:0] PROD
 );
 
@@ -24,7 +25,7 @@ module MUL_FIN(
     logic [63:0] partial_prod [0:9];
 
     for (genvar i = 0; i < 10; i++) begin
-        assign partial_prod[i] = rs2_final[i] ? ({54'b0,rs1_final} << i) : 64'd0;
+        assign partial_prod[i] = rs2_final[i] ? ({54'b0,rs1_final} << (i+22)) : 64'd0;
     end
 
     wire [63:0] sum0 = partial_prod[0] + partial_prod[1];
@@ -32,7 +33,7 @@ module MUL_FIN(
     wire [63:0] sum2 = partial_prod[4] + partial_prod[5];
     wire [63:0] sum3 = partial_prod[6] + partial_prod[7];
     wire [63:0] sum4 = partial_prod[8] + partial_prod[9];
-    wire [63:0] stage_sum = sum0 + sum1 + sum2 + sum3 + sum4;
+    wire [63:0] stage_sum = sum0 + sum1 + sum2 + sum3 + sum4 + SUM;
     wire [63:0] stage_sum_n = ~stage_sum + 1;
     always_comb begin
         PROD = 32'b0;
