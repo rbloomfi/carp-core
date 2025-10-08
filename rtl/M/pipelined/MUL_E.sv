@@ -4,13 +4,13 @@ module MUL_E (
     input logic [31:0] rs2,
     input logic [1:0] mul_op, // 00=MUL, 01
     output logic [63:0] E_product,
-    output logic negate
+    output logic negate,
+    output logic [31:0] opA,
+    output logic [31:0] opB
 );
 
-logic [31:0] opA, opB;
-
 always_comb begin
-    product = 64'b0;
+    E_product = 64'b0;
 
     case (mul_op)
         2'b00: begin // MUL
@@ -36,10 +36,7 @@ always_comb begin
     endcase
 
     for (int i = 0; i < 11; i++) begin
-        if (opA[0]) product = product + {32'b0, opB};
-        else product = product;
-        opA = opA >> 1;
-        opB = opB << 1;
+        if (opA[i]) E_product += {32'b0, opB} << i;
     end
 end
 
