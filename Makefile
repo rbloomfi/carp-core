@@ -230,6 +230,7 @@ help:
 	@printf "\n$(BRIGHT_CYAN)Verilator Simulation (0,1)$(RESET)\n"
 	@printf "$(BRIGHT_CYAN)sim$(RESET) to simulate all testbenches with Verilator\n"
 	@printf "$(BRIGHT_CYAN)sim/$(RESET) to simulate one testbench with Verilator\n"
+	@printf "Example: $(BRIGHT_CYAN)sim/tb_ALU$(RESET)\n"
 	
 	@printf "\n$(ORANGE)Icarus Simulation (1, 0, X, Z)$(RESET)\n"
 	@printf "$(ORANGE)isim$(RESET) to simulate all testbenches with Icarus Verilog\n"

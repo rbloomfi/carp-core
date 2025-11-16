@@ -44,8 +44,6 @@ module tb_DMEM ();
     $dumpfile("tb_DMEM.vcd");
     $dumpvars(0, tb_DMEM);
     $dumpvars(0, tb_DMEM.UUT.ram_64kb[0:32]);
-    $display("loading data mem...");
-    $readmemh("../../asm/initial_data.mem", UUT.ram_64kb);
   end
 
   initial begin

@@ -12,10 +12,13 @@ module tb_CARPsimple ();
   logic CLK;
   logic RST;
 
+  //WARN: replace with CARP core when functioning - should pass all the tests
+  //that EEL passes - right?
   EEL UUT (
       .CLK(CLK),
       .RST(RST)
   );
+
   task automatic print_dmem();
     integer i;
     $display("First 32 lines of DATA_MEMORY:");
@@ -28,13 +31,14 @@ module tb_CARPsimple ();
     //$display("loading data mem...");
     //$readmemh("../../asm/initial_data.mem", UUT.DATA_MEMORY.ram_64kb);
     $display("loading prog mem...");
-    $readmemh("../../asm/carp_simple.mem", UUT.PROG_MEMORY.rom_64kb);
+    $readmemh("../../asm/i_mem/carp_simple.mem", UUT.PROG_MEMORY.rom_64kb);
     print_dmem();
   end
 
   initial begin
     $dumpfile("tb_CARPsimple.vcd");
     $dumpvars(2, tb_CARP);
+    $dumpvars(2, tb_CARP.UUT);
   end
 
   initial begin
@@ -44,8 +48,8 @@ module tb_CARPsimple ();
 
   always begin
     #10 RST <= 1'b0;
-    #900 #900 print_dmem();
-    #900 RST <= 1'b1;
+    #900 print_dmem();
+    #10 RST <= 1'b1;
     #10 $finish;
   end
 
