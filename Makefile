@@ -197,7 +197,8 @@ openlane_sta:
 	@echo $@
 	OPENLANE_CONF=$@ make openlane
 
-FORCE: ; #NOTE: forces the makefile rule to run, even if the rule's output already exists. https://www.gnu.org/software/make/manual/html_node/Force-Targets.html (not that you would read the documentation anyway smh)
+##NOTE: forces the makefile rule to run, even if the rule's output already exists. https://www.gnu.org/software/make/manual/html_node/Force-Targets.html (not that you would read the documentation anyway smh)
+FORCE: ; 
 
 openroad:
 	scripts/openroad_launch.sh | openroad

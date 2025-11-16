@@ -16,14 +16,13 @@ module BRANCH_PRED (
   wire [7:0] xorPC_past;
   wire [7:0] xorPC_cur;
 
-  //TODO: what is ts
-  `define XOR_BYTES32(x) ((x)[7:0] ^ (x)[15:8] ^ (x)[23:16] ^ (x)[31:24])
+  //NOTE: the secret sauce of the BP
+  function automatic [7:0] xor_bytes32(input logic [31:0] x);
+    return x[7:0] ^ x[15:8] ^ x[23:16] ^ x[31:24];
+  endfunction
 
-
-
-
-  assign xorPC_past = `XOR_BYTES32(pc_past);
-  assign xorPC_cur  = `XOR_BYTES32(pc_cur);
+  assign xorPC_past = xor_bytes32(pc_past);
+  assign xorPC_cur  = xor_bytes32(pc_cur);
 
 
   logic [8:0][1:0] BHT;
