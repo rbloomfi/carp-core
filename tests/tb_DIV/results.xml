@@ -1,0 +1,8 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1763158843" />
+    <testcase name="test_divider" classname="tb_DIV" file="/home/asic/workspace/carp-core/tests/tb_DIV/tb_DIV.py" lineno="6" time="0.0010166168212890625" sim_time_ns="10.001" ratio_time="9837.53149718574">
+      <failure message="Test failed with RANDOM_SEED=1763158843" />
+    </testcase>
+  </testsuite>
+</testsuites>
