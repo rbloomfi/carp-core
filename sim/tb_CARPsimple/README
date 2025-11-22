@@ -1,0 +1,4 @@
+- Designed to verify basic programs, so that CARP top level changes can be sanity checked
+- As of right now, EEL should be functionally identical to CARP core - at least as far as the final state of DMEM is concerned
+- TODO: Compare final DMEM of sim to final DMEM of some RV32i Virtual machine for more automatic end to end testing?
+- TODO: drop .mem in favor of ELF? 
