@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1762740341" />
+    <testcase name="test_pipelined_multiplier" classname="mul_test" file="/home/asic/workspace/carp-core/tests/tb_MUL/mul_test.py" lineno="7" time="0.003246784210205078" sim_time_ns="150.001" ratio_time="46199.86740373036" />
+  </testsuite>
+</testsuites>
