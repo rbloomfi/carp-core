@@ -4,3 +4,6 @@ tests/**/a.out
 tests/**/results.log
 tests/**/build.log
 /rtl/sequential/TARG_GEN.sv
+**.log
+**/verilator_lib
+**.vcd
