@@ -20,7 +20,6 @@ module DECODER(
 	output logic BRANCH,
 	output logic [2:0] BR_TYPE,
 	output logic JUMP,
-	output logic [1:0] PC_SEL
 );
 	
 	always_comb begin
@@ -63,7 +62,6 @@ module DECODER(
 					REG_WRITE = 1'b1;  // rd <- PC+4
 					RF_SEL = 2'b00;    // PC+4 
 					IMM_SEL = 3'b100;  // j-type 
-					PC_SEL = 2'b01;    // jal to PC 
 				end
 				
 				7'b1100111: begin      // JALR
@@ -71,7 +69,6 @@ module DECODER(
 					REG_WRITE = 1'b1;  // rd <- PC+4
 					RF_SEL = 2'b00;    // PC + 4
 					IMM_SEL = 3'b100;  // j-type
-					PC_SEL = 2'b10;    // jalr to PC
 				end
 
 				7'b0000011: begin      // LOAD
@@ -137,9 +134,7 @@ module DECODER(
 
 				7'b1100011: begin // Branch (B-type)
 					BRANCH     = 1'b1;
-					IMM_SEL    = 3'b010;
-					PC_SEL = 2'b01;
-					
+					IMM_SEL    = 3'b010;					
 					case (FUNC3)
 						3'b000: BR_TYPE = 3'b000; // BEQ
 						3'b001: BR_TYPE = 3'b001; // BNE

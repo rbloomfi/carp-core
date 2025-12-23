@@ -102,9 +102,9 @@ module CARP (
     MUX4T1 PC_MUX(
         .SEL(pc_sel), // hardcoded to nextpc until flow control is established
         .D0(next_pc),
-        .D1((pc_out) + ({{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0})), // jal
-        .D2(), // jalr
-        .D3(), // branch
+        .D1((pc_out) + imm), // jal
+        .D2((imm + fwd_rs1) & ~1), // jalr (do we need the & ~1?)
+        .D3(pc_out + imm), // branch
         .DOUT(pc_in) // pc_in
     );
 
@@ -188,7 +188,7 @@ module CARP (
         .OPCODE(fd.IR[6:0]),
         .FUNC3(fd.IR[14:12]),
         .FUNC7(fd.IR[30]),
-        .PC_SEL(decoder_pc_sel),
+        //.PC_SEL(decoder_pc_sel),  // decided to move to HAZ_UNIT for BP implementation
         .RF_SEL(rf_sel),
         .REG_WRITE(reg_write),
         .MEM_WRITE(mem_write),
@@ -288,6 +288,16 @@ module CARP (
         .ZERO(zero)
     );
 
+    MUL_E MUL_STAGE_1(
+        .rs1(),
+        .rs2(),
+        .mul_op(), // 00=MUL, 01
+        .E_product(),
+        .negate(),
+        .opA(),
+        .opB()
+    );
+
     always@(posedge CLK) begin
        // signals generating in FETCH
         em.PC         <= de.PC;       
@@ -353,4 +363,7 @@ module CARP (
         .SEL(mw.RF_SEL),
         .DOUT(w_data)
     );
+
+
+
 endmodule

@@ -88,8 +88,7 @@ module HAZ_UNIT (
      (E_OP == LOAD)
     ); 
 
-    // FLOW FORWARDS 
-
+    /* FLOW FORWARDS 
     logic df_fwd1;
     logic df_fwd2;
     logic ef_fwd1;
@@ -98,7 +97,7 @@ module HAZ_UNIT (
     logic mf_fwd2;
     logic wf_fwd1;
     logic wf_fwd2;
-
+    */ 
 
     // NON-FLOW FORWARDS
     assign ed_fwd1 = 
@@ -253,9 +252,16 @@ module HAZ_UNIT (
 
     // PC Mux select handling 
     always_comb begin
-
-        PC_SEL = 2'b00;
-
+        case(D_OP)
+            7'h6f: PC_SEL = 2'b01; // JAL
+            7'h67: PC_SEL = 2'b10 // JALR
+            7'h63: begin
+                if (branch) PC_SEL = 2'b11 // BRANCH
+                else PC_SEL = 2'b00;
+            end
+            default:  PC_SEL = 2'b00; // PC + 4
+        endcase
+        
     end
 
 
