@@ -197,7 +197,8 @@ openlane_sta:
 	@echo $@
 	OPENLANE_CONF=$@ make openlane
 
-FORCE: ;
+##NOTE: forces the makefile rule to run, even if the rule's output already exists. https://www.gnu.org/software/make/manual/html_node/Force-Targets.html (not that you would read the documentation anyway smh)
+FORCE: ; 
 
 openroad:
 	scripts/openroad_launch.sh | openroad
@@ -229,6 +230,7 @@ help:
 	@printf "\n$(BRIGHT_CYAN)Verilator Simulation (0,1)$(RESET)\n"
 	@printf "$(BRIGHT_CYAN)sim$(RESET) to simulate all testbenches with Verilator\n"
 	@printf "$(BRIGHT_CYAN)sim/$(RESET) to simulate one testbench with Verilator\n"
+	@printf "Example: $(BRIGHT_CYAN)sim/tb_ALU$(RESET)\n"
 	
 	@printf "\n$(ORANGE)Icarus Simulation (1, 0, X, Z)$(RESET)\n"
 	@printf "$(ORANGE)isim$(RESET) to simulate all testbenches with Icarus Verilog\n"
