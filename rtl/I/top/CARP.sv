@@ -99,14 +99,14 @@ module CARP (
   );
 
 
-  MUX4T1 PC_MUX (
-      .SEL(pc_sel),  // hardcoded to nextpc until flow control is established
-      .D0(next_pc),
-      .D1((pc_out) + ({{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0})),  // jal
-      .D2(),  // jalr
-      .D3(),  // branch
-      .DOUT(pc_in)  // pc_in
-  );
+    MUX4T1 PC_MUX(
+        .SEL(pc_sel), // hardcoded to nextpc until flow control is established
+        .D0(next_pc),
+        .D1((pc_out) + imm), // jal
+        .D2((imm + fwd_rs1) & ~1), // jalr (do we need the & ~1?)
+        .D3(pc_out + imm), // branch
+        .DOUT(pc_in) // pc_in
+    );
 
   PC PROG_COUNTER (
       .CLK(CLK),
@@ -184,25 +184,25 @@ module CARP (
       .DOUT(srcb_fwd)
   );
 
-  DECODER CTRL_UNIT (
-      .OPCODE(fd.IR[6:0]),
-      .FUNC3(fd.IR[14:12]),
-      .FUNC7(fd.IR[30]),
-      .PC_SEL(decoder_pc_sel),
-      .RF_SEL(rf_sel),
-      .REG_WRITE(reg_write),
-      .MEM_WRITE(mem_write),
-      .MEM_READ(mem_read),
-      .BYTE_SEL(byte_sel),
-      .SIGN(sign),
-      .BRANCH(branch),
-      .BR_TYPE(br_type),
-      .JUMP(jump),
-      .ALU_FUN(alu_fun),
-      .SRC_A_SEL(src_a_sel),
-      .SRC_B_SEL(src_b_sel),
-      .IMM_SEL(imm_sel)
-  );
+    DECODER CTRL_UNIT(
+        .OPCODE(fd.IR[6:0]),
+        .FUNC3(fd.IR[14:12]),
+        .FUNC7(fd.IR[30]),
+        //.PC_SEL(decoder_pc_sel),  // decided to move to HAZ_UNIT for BP implementation
+        .RF_SEL(rf_sel),
+        .REG_WRITE(reg_write),
+        .MEM_WRITE(mem_write),
+        .MEM_READ(mem_read),
+        .BYTE_SEL(byte_sel),
+        .SIGN(sign),
+        .BRANCH(branch),
+        .BR_TYPE(br_type),
+        .JUMP(jump),
+        .ALU_FUN(alu_fun),
+        .SRC_A_SEL(src_a_sel),
+        .SRC_B_SEL(src_b_sel),
+        .IMM_SEL(imm_sel)
+    );
 
   EXTENDER IMM_GEN (
       .IR(fd.IR[31:7]),
@@ -280,13 +280,23 @@ module CARP (
       .DOUT(alu_op_b)
   );
 
-  ALU EEL_ALU (
-      .OP_A(alu_op_a),
-      .OP_B(alu_op_b),
-      .ALU_FUN(de.ALU_FUN),
-      .RESULT(alu_result),
-      .ZERO(zero)
-  );
+    ALU EEL_ALU(
+        .OP_A(alu_op_a),
+        .OP_B(alu_op_b),
+        .ALU_FUN(de.ALU_FUN),
+        .RESULT(alu_result),
+        .ZERO(zero)
+    );
+
+    MUL_E MUL_STAGE_1(
+        .rs1(),
+        .rs2(),
+        .mul_op(), // 00=MUL, 01
+        .E_product(),
+        .negate(),
+        .opA(),
+        .opB()
+    );
 
   always @(posedge CLK) begin
     // signals generating in FETCH
@@ -345,12 +355,15 @@ module CARP (
     mw.ALU_RESULT <= em.ALU_RESULT;
   end
 
-  MUX4T1 RF_MUX (
-      .D0  (mw.NEXTPC),
-      .D1  (),
-      .D2  (dout),
-      .D3  (mw.ALU_RESULT),
-      .SEL (mw.RF_SEL),
-      .DOUT(w_data)
-  );
+    MUX4T1 RF_MUX(
+        .D0(mw.NEXTPC),
+        .D1(),
+        .D2(dout),
+        .D3(mw.ALU_RESULT),
+        .SEL(mw.RF_SEL),
+        .DOUT(w_data)
+    );
+
+
+
 endmodule
